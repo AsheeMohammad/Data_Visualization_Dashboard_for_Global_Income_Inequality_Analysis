@@ -1,8 +1,9 @@
 import streamlit as st
-from auth_module import signup, login, send_otp
+from auth_module import signup, login, send_otp, update_password
 from streamlit_lottie import st_lottie
 import requests
 import os
+
 
 def centered_layout(content_func):
     """Reusable wrapper to center page content"""
@@ -40,7 +41,7 @@ def load_lottieurl(url: str):
 def verify_otp(entered_otp: str) -> bool:
     return entered_otp == st.session_state.otp
 def reset_password(email: str, new_password: str) -> bool:
-    return update_password(email, new_password)
+    return auth.update_password(email, new_password)
 # LOGIN / SIGNUP / FORGOT UI
 def auth_ui():
     # Custom CSS for titles, labels, and inputs

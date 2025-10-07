@@ -51,3 +51,37 @@ def send_otp(email: str):
     except Exception as e:
         print("❌ Error sending email:", e)
         return None
+
+# -------------------------
+# Reset password
+# -------------------------
+def update_password(email: str, new_password: str):
+    """Update password in TinyDB."""
+    User = Query()
+    user = users_table.search(User.email == email)
+    if user:
+        users_table.update({"password": new_password}, User.email == email)
+        return True
+    return False
+
+#Edit Profile
+def update_profile(old_email: str, new_name: str, new_email: str, new_password: str):
+    """Update user profile details in DB"""
+    User = Query()
+    user = users_table.search(User.email == old_email)
+
+    if not user:
+        return False, "User not found!"
+
+    # Update fields
+    update_data = {}
+    if new_name:
+        update_data["name"] = new_name
+    if new_email:
+        update_data["email"] = new_email
+    if new_password:
+        update_data["password"] = new_password
+
+    users_table.update(update_data, User.email == old_email)
+    return True, "Profile updated successfully!"
+
